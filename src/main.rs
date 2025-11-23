@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use quack::{Graph, Node, node::{StringValue, TrimString}};
 
 fn main() {
