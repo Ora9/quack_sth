@@ -12,6 +12,14 @@ impl NodeId {
             uuid: Uuid::new_v4(),
         }
     }
+
+    pub fn display(&self) -> String {
+        self.uuid.to_string()
+    }
+
+    pub fn display_short(&self) -> String {
+        self.uuid.as_fields().0.to_string()
+    }
 }
 
 /// A node id, used by the [`Graph`] through structs [`VertexId`] and [`InoutId`]
