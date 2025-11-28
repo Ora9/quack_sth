@@ -1,13 +1,12 @@
-use quack::{Graph, Node, node::{StringValue, TrimString}};
+use quack::{Graph, Node, node::NumericValue, };
 
 fn main() {
     let mut graph = Graph::new();
 
-    let strvalue = graph.insert(Box::new(StringValue::new()));
-    let strim = graph.insert(Box::new(TrimString::new()));
+    let numvalue = graph.insert(Box::new(NumericValue::new()));
 
     dbg!(&graph);
-    dbg!(strvalue);
+    dbg!(numvalue);
 
     // graph.evaluate();
 }

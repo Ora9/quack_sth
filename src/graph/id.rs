@@ -14,6 +14,20 @@ impl NodeId {
     }
 }
 
+/// A node id, used by the [`Graph`] through structs [`VertexId`] and [`InoutId`]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
+pub struct NodeInoutId {
+    uuid: Uuid,
+}
+
+impl NodeInoutId {
+    pub fn new() -> Self {
+        Self {
+            uuid: Uuid::new_v4(),
+        }
+    }
+}
+
 /// Different forms of inputs for a graph
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
 pub enum GraphIn {
@@ -36,13 +50,13 @@ pub enum GraphOut {
 pub enum InoutId {
     GraphIn(GraphIn),
     GraphOut(GraphOut),
-    NodeInout(NodeId, Uuid),
+    NodeInout(NodeId, NodeInoutId),
 }
 
 impl InoutId {
     /// Return a new random `inout` (input or output) for a node
     pub fn new_node_inout_id(node_id: NodeId) -> Self {
-        Self::NodeInout(node_id, Uuid::new_v4())
+        Self::NodeInout(node_id, NodeInoutId::new())
     }
 
     /// Return `Some(NodeId)` if Self::NodeEdgepoint or None

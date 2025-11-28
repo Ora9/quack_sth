@@ -10,16 +10,28 @@ pub use node::Node;
 mod id;
 pub use id::*;
 
-#[derive(Debug)]
-struct NodeHandle {
+#[derive(Debug, Clone)]
+pub struct NodeHandle {
+    id: NodeId,
     node: Arc<Box<dyn Node>>,
+    // graph: Arc<Mutex<Graph>>,
 }
 
 impl NodeHandle {
-    pub fn new(node: Box<dyn Node>) -> Self {
+    pub fn new(
+        id: NodeId,
+        node: Box<dyn Node>,
+        // graph: Arc<Mutex<Graph>>
+    ) -> Self {
         Self {
+            id,
             node: Arc::new(node),
+            // graph,
         }
+    }
+
+    pub fn id_for(inout_name: &str) -> Option<InoutId> {
+        None
     }
 }
 
@@ -78,14 +90,16 @@ impl Graph {
 }
 
 impl Graph {
-    pub fn insert(&mut self, node: Box<dyn Node>) -> NodeId {
+    pub fn insert(&mut self, node: Box<dyn Node>) -> NodeHandle {
         let id = NodeId::new();
+        let node_handle = NodeHandle::new(id, node);
+
         self.vertices.insert(
             id,
-            Vertex::new(NodeHandle::new(node))
+            Vertex::new(node_handle.clone())
         );
 
-        id
+        node_handle
     }
 
     pub fn patch(&mut self, output_edgepoint: InoutId, input_edgepoint: InoutId) {
