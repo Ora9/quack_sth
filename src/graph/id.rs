@@ -8,9 +8,7 @@ pub struct NodeId {
 
 impl NodeId {
     pub fn new() -> Self {
-        Self {
-            id: Uuid::new_v4(),
-        }
+        Self { id: Uuid::new_v4() }
     }
 
     pub fn display(&self) -> String {
@@ -71,16 +69,13 @@ pub struct NodeInoutId {
 
 impl NodeInoutId {
     pub fn new(id: &str) -> Self {
-        Self {
-            id: id.to_string()
-        }
+        Self { id: id.to_string() }
     }
 
     pub fn id(&self) -> String {
         self.id.clone()
     }
 }
-
 
 // /// Id of a vertex (a conceptual )
 // #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]

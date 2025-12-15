@@ -1,4 +1,10 @@
-use std::{any::Any, collections::{HashMap, HashSet}, fmt::Debug, hash::Hash, sync::{Arc, Mutex}};
+use std::{
+    any::Any,
+    collections::{HashMap, HashSet},
+    fmt::Debug,
+    hash::Hash,
+    sync::{Arc, Mutex},
+};
 use uuid::Uuid;
 
 mod meta;
@@ -31,10 +37,9 @@ impl NodeHandle {
     }
 
     pub fn id_for(&self, inout_name: &str) -> Option<GraphInoutId> {
-        self.node.id_for(inout_name)
-            .and_then(|node_inout_id| {
-                Some(GraphInoutId::new_node_inout_id(self.id, node_inout_id))
-            })
+        self.node
+            .id_for(inout_name)
+            .and_then(|node_inout_id| Some(GraphInoutId::new_node_inout_id(self.id, node_inout_id)))
     }
 }
 
@@ -44,11 +49,6 @@ impl NodeHandle {
 //     target: Vec<InoutId>,
 // }
 
-/// A vertex is a conceptual representation of either :
-/// - A node
-/// - The graph inputs or outputs
-///
-/// This is well represented by [`VertexId`]
 #[derive(Debug)]
 struct Vertex {
     node: NodeHandle,
@@ -83,7 +83,7 @@ impl Graph {
 
     pub fn with_capacity(capacity: usize) -> Self {
         Self {
-            vertices: HashMap::with_capacity(capacity)
+            vertices: HashMap::with_capacity(capacity),
         }
     }
 
@@ -97,16 +97,12 @@ impl Graph {
         let id = NodeId::new();
         let node_handle = NodeHandle::new(id, node);
 
-        self.vertices.insert(
-            id,
-            Vertex::new(node_handle.clone())
-        );
+        self.vertices.insert(id, Vertex::new(node_handle.clone()));
 
         node_handle
     }
 
     pub fn patch(&mut self, output_edgepoint: GraphInoutId, input_edgepoint: GraphInoutId) {
-
         // self.edges.insert()
 
         dbg!(output_edgepoint, input_edgepoint);
@@ -129,7 +125,5 @@ struct LasyInputs {
 }
 
 impl LasyInputs {
-    fn get() {
-
-    }
+    fn get() {}
 }

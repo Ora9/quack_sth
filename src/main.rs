@@ -1,4 +1,7 @@
-use quack::{Graph, Node, node::{Multiply, Number}, };
+use quack::{
+    Graph, Node,
+    node::{Multiply, Number},
+};
 
 fn main() {
     let mut graph = Graph::new();

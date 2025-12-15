@@ -5,7 +5,7 @@ use crate::{GraphInoutId, Meta, Node, NodeInoutId};
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 enum NumberInout {
-    Output
+    Output,
 }
 
 #[derive(Debug, Default)]

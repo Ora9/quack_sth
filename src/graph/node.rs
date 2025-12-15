@@ -15,7 +15,9 @@ pub trait Node: Debug {
 
     fn id_for(&self, inout_name: &str) -> Option<NodeInoutId>;
 
-    fn new() -> Self where Self: Sized;
+    fn new() -> Self
+    where
+        Self: Sized;
 }
 
 // #[derive(Debug, PartialEq, Eq, Hash)]
