@@ -150,9 +150,7 @@ mod tests {
     }
 
     #[test]
-    fn graph_initialized_with_inout() {
-
-    }
+    fn graph_initialized_with_inout() {}
 }
 
 /// # Graph patching
@@ -173,17 +171,20 @@ impl Graph {
 
         let out_vertex = self
             .vertices
-            .get(&out_id.node_id())
-            .context("The given `out` node does not exists")?;
+            .get_mut(&out_id.node_id())
+            .context("The given `out` node does not exists")?
+            .outbount
+            .entry(out_id)
+            .and_modify(|v| {
+                v.insert(in_id);
+            });
 
         let in_vertex = self
             .vertices
-            .get(&in_id.node_id())
-            .context("The given `in` node does not exists")?;
-
-        // let mut in_vertex = self.vertices.get_mut(&in_id.node_id());
-
-        // dbg!(in_vertex, out_vertex);
+            .get_mut(&in_id.node_id())
+            .context("The given `in` node does not exists")?
+            .inbound
+            .insert(in_id, out_id);
 
         Ok(())
     }
