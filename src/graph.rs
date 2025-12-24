@@ -124,7 +124,10 @@ impl Graph {
     pub fn remove(&mut self, node_id: NodeId) -> Result<(), anyhow::Error> {
         match node_id {
             NodeId::GraphIn | NodeId::GraphOut => Err(anyhow!("Cannot remove the graph in or out")),
-            _ => self.remove(node_id)
+            _ => {
+                self.vertices.remove(&node_id);
+                Ok(())
+            }
         }
     }
 }
