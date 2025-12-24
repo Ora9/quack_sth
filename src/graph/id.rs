@@ -1,6 +1,5 @@
 use std::{fmt::Debug, hash::{BuildHasher, DefaultHasher, Hasher, RandomState}};
 
-use uuid::Uuid;
 
 /// A unique id, used for [`NodeId`], [`InoutId`]
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
