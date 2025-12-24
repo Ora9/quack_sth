@@ -79,22 +79,6 @@ impl NodeId {
     }
 }
 
-// /// Different forms of inputs for a graph
-// #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
-// pub enum GraphIn {
-//     Text,
-//     Sound,
-//     Image,
-// }
-
-// /// Different forms of output for a graph
-// #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
-// pub enum GraphOut {
-//     Text,
-//     Sound,
-//     Image,
-// }
-
 /// Each input or output (`inout`) in the graph have a specific id, that is
 /// either inout of a node, or of the graph itself
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
@@ -118,40 +102,3 @@ impl InoutId {
         }
     }
 }
-
-// /// A node id, used by the [`Graph`] through structs [`VertexId`] and [`InoutId`]
-// #[derive(Debug, PartialEq, Eq, Clone, Hash)]
-// pub struct NodeInoutId {
-//     id: String,
-// }
-
-// impl NodeInoutId {
-//     pub fn new(id: &str) -> Self {
-//         Self { id: id.to_string() }
-//     }
-
-//     pub fn id(&self) -> String {
-//         self.id.clone()
-//     }
-// }
-
-// /// Id of a vertex (a conceptual )
-// #[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
-// pub enum VertexId {
-//     GraphIn,
-//     GraphOut,
-//     Node(NodeId),
-// }
-
-// impl VertexId {
-//     pub fn new_node_id() -> Self {
-//         Self::Node(NodeId::new())
-//     }
-
-//     pub fn node_id(&self) -> Option<NodeId> {
-//         match self {
-//             Self::Node(node_id) => Some(*node_id),
-//             _ => None
-//         }
-//     }
-// }

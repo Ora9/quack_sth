@@ -41,12 +41,6 @@ impl NodeHandle {
     }
 }
 
-// #[derive(Debug)]
-// struct Edge {
-//     source: InoutId,
-//     target: Vec<InoutId>,
-// }
-
 #[derive(Debug)]
 struct Vertex {
     node_handle: Option<NodeHandle>,
