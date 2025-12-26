@@ -6,16 +6,16 @@ use quack::{
 fn main() {
     let mut graph = Graph::new();
 
-    let number = graph.insert(Box::new(Number::new()));
+    let number_a = graph.insert(Box::new(Number::new()));
+    let number_b = graph.insert(Box::new(Number::new()));
     let mult = graph.insert(Box::new(Multiply::new()));
 
-    dbg!(&mult.id_for("term1"));
-    dbg!(&mult.id_for("term2"));
+    let _ = graph.patch(number_a.id_for("out").unwrap(), mult.id_for("term1").unwrap());
+    let _ = graph.patch(number_b.id_for("out").unwrap(), mult.id_for("term2").unwrap());
+    // let _ = graph.patch(mult.id_for("out"), quack::InoutId::), mult.id_for("term1").unwrap());
 
-    let _ = graph.patch(number.id_for("out").unwrap(), mult.id_for("term1").unwrap());
-
-    dbg!(&mult);
-    dbg!(&number);
+    // dbg!(&mult);
+    // dbg!(&number_a);
     dbg!(&graph);
     // graph.evaluate();
 }

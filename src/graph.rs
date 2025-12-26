@@ -46,7 +46,7 @@ struct Vertex {
     node_handle: Option<NodeHandle>,
 
     inbound: HashMap<InoutId, InoutId>,
-    outbount: HashMap<InoutId, HashSet<InoutId>>,
+    outbound: HashMap<InoutId, HashSet<InoutId>>,
 }
 
 impl Vertex {
@@ -59,7 +59,7 @@ impl Vertex {
             node_handle: node_handle,
 
             inbound: HashMap::new(),
-            outbount: HashMap::new(),
+            outbound: HashMap::new(),
         }
     }
 }
@@ -169,18 +169,15 @@ impl Graph {
         // add out_id to in_id
         //
 
-        let out_vertex = self
-            .vertices
+        self.vertices
             .get_mut(&out_id.node_id())
             .context("The given `out` node does not exists")?
-            .outbount
+            .outbound
             .entry(out_id)
-            .and_modify(|v| {
-                v.insert(in_id);
-            });
+            .or_default()
+            .insert(in_id);
 
-        let in_vertex = self
-            .vertices
+        self.vertices
             .get_mut(&in_id.node_id())
             .context("The given `in` node does not exists")?
             .inbound
@@ -201,6 +198,13 @@ impl Graph {
     // unpatch node
     // unpatch nodes
 }
+
+/// # Graph ins and outs
+// impl Graph {
+//     pub fn id_for(&self, ) -> InoutId {
+//
+//     }
+// }
 
 /// # Graph evaluation
 impl Graph {
