@@ -187,7 +187,20 @@ impl Graph {
     }
 
     pub fn unpatch(&mut self, out_id: InoutId, in_id: InoutId) -> Result<(), anyhow::Error> {
-        dbg!(out_id, in_id);
+        self.vertices
+            .get_mut(&out_id.node_id())
+            .context("The given `out` node does not exists")?
+            .outbound
+            .entry(out_id)
+            .or_default()
+            .remove(&in_id);
+
+        self.vertices
+            .get_mut(&in_id.node_id())
+            .context("The given `in` node does not exists")?
+            .inbound
+            .remove(&in_id);
+
         Ok(())
     }
 
