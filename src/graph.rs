@@ -58,8 +58,8 @@ impl NodeHandle {
 struct Vertex {
     node_handle: NodeHandle,
 
-    inbound: HashMap<NodeInoutId, NodeInoutId>,
-    outbound: HashMap<NodeInoutId, HashSet<NodeInoutId>>,
+    inbound: HashMap<InoutId, NodeInoutId>,
+    outbound: HashMap<InoutId, HashSet<NodeInoutId>>,
 }
 
 impl Vertex {
@@ -70,6 +70,22 @@ impl Vertex {
             inbound: HashMap::new(),
             outbound: HashMap::new(),
         }
+    }
+
+    fn inbound(self) -> HashMap<InoutId, NodeInoutId> {
+        self.inbound
+    }
+
+    fn outbound(self) -> HashMap<InoutId, HashSet<NodeInoutId>> {
+        self.outbound
+    }
+
+    fn inbound_for(&self, inout_id: InoutId) -> Option<&NodeInoutId> {
+        self.inbound.get(&inout_id)
+    }
+
+    fn outbound_for(&self, inout_id: InoutId) -> Option<&HashSet<NodeInoutId>> {
+        self.outbound.get(&inout_id)
     }
 }
 
@@ -179,7 +195,7 @@ impl Graph {
             .get_mut(&out_id.node_id())
             .context("The given `out` node does not exists")?
             .outbound
-            .entry(out_id)
+            .entry(out_id.inout_id())
             .or_default()
             .insert(in_id);
 
@@ -187,7 +203,7 @@ impl Graph {
             .get_mut(&in_id.node_id())
             .context("The given `in` node does not exists")?
             .inbound
-            .insert(in_id, out_id);
+            .insert(in_id.inout_id(), out_id);
 
         Ok(())
     }
@@ -197,7 +213,7 @@ impl Graph {
             .get_mut(&out_id.node_id())
             .context("The given `out` node does not exists")?
             .outbound
-            .entry(out_id)
+            .entry(out_id.inout_id())
             .or_default()
             .remove(&in_id);
 
@@ -205,7 +221,7 @@ impl Graph {
             .get_mut(&in_id.node_id())
             .context("The given `in` node does not exists")?
             .inbound
-            .remove(&in_id);
+            .remove(&in_id.inout_id());
 
         Ok(())
     }
