@@ -3,7 +3,6 @@ use std::{
     hash::{BuildHasher, DefaultHasher, Hasher, RandomState},
 };
 
-
 /// A unique id, used for [`NodeId`], [`InoutId`]
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
 pub struct HashId {
