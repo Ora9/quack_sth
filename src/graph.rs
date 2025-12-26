@@ -43,18 +43,14 @@ impl NodeHandle {
 
 #[derive(Debug)]
 struct Vertex {
-    node_handle: Option<NodeHandle>,
+    node_handle: NodeHandle,
 
     inbound: HashMap<InoutId, InoutId>,
     outbound: HashMap<InoutId, HashSet<InoutId>>,
 }
 
 impl Vertex {
-    fn new_node(node_handle: NodeHandle) -> Self {
-        Self::new(Some(node_handle))
-    }
-
-    fn new(node_handle: Option<NodeHandle>) -> Self {
+    fn new(node_handle: NodeHandle) -> Self {
         Self {
             node_handle,
 
@@ -78,8 +74,8 @@ impl Graph {
             vertices: HashMap::with_capacity(2),
         };
 
-        graph.insert_maybe_node_with_id(None, NodeId::GraphIn);
-        graph.insert_maybe_node_with_id(None, NodeId::GraphOut);
+        graph.insert_with_id(Box::new(GraphIn::new()), NodeId::GraphIn);
+        graph.insert_with_id(Box::new(GraphOut::new()), NodeId::GraphOut);
 
         graph
     }
@@ -91,28 +87,13 @@ impl Graph {
 
 /// # Node insertion / removal
 impl Graph {
-    fn insert_maybe_node_with_id(
-        &mut self,
-        maybe_node: Option<Box<dyn Node>>,
-        node_id: NodeId,
-    ) -> Option<NodeHandle> {
-        let node_handle_opt = if let Some(node) = maybe_node {
-            let node_handle = NodeHandle::new(node_id, node);
-            Some(node_handle)
-        } else {
-            None
-        };
-
-        self.vertices
-            .insert(node_id, Vertex::new(node_handle_opt.clone()));
-        node_handle_opt
-    }
-
     /// Insert a boxed [`Node`] into the graph with the given [`NodeId`], then
     /// return a [`NodeHandle`]
     pub fn insert_with_id(&mut self, node: Box<dyn Node>, node_id: NodeId) -> NodeHandle {
-        Self::insert_maybe_node_with_id(self, Some(node), node_id)
-            .expect("When passing a `Node`, we should always get a `NodeHandle`")
+        let node_handle = NodeHandle::new(node_id, node);
+        self.vertices.insert(node_id, Vertex::new(node_handle.clone()));
+
+        node_handle
     }
 
     /// Insert a boxed [`Node`] into the graph, giving it a new random id, then
@@ -197,6 +178,60 @@ impl Graph {
 
     // unpatch node
     // unpatch nodes
+}
+
+#[derive(Debug)]
+pub struct GraphIn;
+
+impl Node for GraphIn {
+    fn new() -> Self {
+        Self
+    }
+
+    fn id_for(&self, inout_name: &str, node_id: NodeId) -> Option<InoutId> {
+        match inout_name {
+            "number_in" => Some(InoutId::Out(node_id, HashId::new_with("number_in"))),
+            _ => None,
+        }
+    }
+
+    fn title(&self) -> &str {
+        "GraphIn"
+    }
+
+    fn evaluate(&self, output_id: Option<InoutId>, input: Box<dyn Any>, meta: Meta) {
+        dbg!(self.title());
+
+        dbg!(output_id);
+        dbg!(meta);
+    }
+}
+
+#[derive(Debug)]
+pub struct GraphOut;
+
+impl Node for GraphOut {
+    fn new() -> Self {
+        Self
+    }
+
+    fn id_for(&self, inout_name: &str, node_id: NodeId) -> Option<InoutId> {
+        match inout_name {
+            "number_out" => Some(InoutId::Out(node_id, HashId::new_with("number_out"))),
+            _ => None,
+        }
+    }
+
+    fn title(&self) -> &str {
+        "GraphOut"
+    }
+
+    fn evaluate(&self, output_id: Option<InoutId>, input: Box<dyn Any>, meta: Meta) {
+        dbg!(self.title());
+
+        dbg!(output_id);
+        dbg!(meta);
+    }
 }
 
 // /// # Graph ins and outs
