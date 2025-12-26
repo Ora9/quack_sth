@@ -44,11 +44,11 @@ enum MultiplyInout {
 }
 
 #[derive(Debug)]
-pub struct Multiply();
+pub struct Multiply;
 
 impl Node for Multiply {
     fn new() -> Self {
-        Self()
+        Self
     }
 
     fn evaluate(&self, output_id: Option<InoutId>, input: Box<dyn Any>, meta: Meta) {
