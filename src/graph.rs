@@ -56,7 +56,7 @@ impl Vertex {
 
     fn new(node_handle: Option<NodeHandle>) -> Self {
         Self {
-            node_handle: node_handle,
+            node_handle,
 
             inbound: HashMap::new(),
             outbound: HashMap::new(),
@@ -155,20 +155,7 @@ mod tests {
 
 /// # Graph patching
 impl Graph {
-    pub fn patch_force(&mut self, out_id: InoutId, in_id: InoutId) -> Result<(), anyhow::Error> {
-        Ok(())
-    }
-
     pub fn patch(&mut self, out_id: InoutId, in_id: InoutId) -> Result<(), anyhow::Error> {
-        dbg!(out_id, in_id);
-
-        // get two vertices
-        // make all check before changing anything
-        //  - is "in" empty?
-        // add in_id to out_id outbound set
-        // add out_id to in_id
-        //
-
         self.vertices
             .get_mut(&out_id.node_id())
             .context("The given `out` node does not exists")?
@@ -212,7 +199,7 @@ impl Graph {
     // unpatch nodes
 }
 
-/// # Graph ins and outs
+// /// # Graph ins and outs
 // impl Graph {
 //     pub fn id_for(&self, ) -> InoutId {
 //
