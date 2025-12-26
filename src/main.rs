@@ -1,4 +1,4 @@
-use quack::{
+use quack_sth::{
     Graph, Node,
     node::{Multiply, Number},
 };
