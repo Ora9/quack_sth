@@ -29,11 +29,6 @@ impl Node for Number {
     }
 
     fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) -> f32 {
-        dbg!(self.title());
-
-        dbg!(out_id);
-        dbg!(meta);
-
         self.value
     }
 }

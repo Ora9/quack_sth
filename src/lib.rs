@@ -31,7 +31,6 @@ impl Quack {
     }
 
     pub fn evaluate_for(&self, out_name: &str) -> Result<f32, anyhow::Error> {
-        // self.lasy_executor.evaluate_for(out_name, self.base_meta);
         let out_id = {
             self.graph
                 .lock()

@@ -25,22 +25,16 @@ use crate::LasyExecutor;
 pub struct NodeHandle {
     id: NodeId,
     node: Arc<Box<dyn Node>>,
-    // graph: Arc<Mutex<Graph>>,
 }
 
 impl NodeHandle {
     /// Given a [`Node`] and its [`NodeId`], return a new `NodeHandle`,
     /// this is not destined to be called by users, but by the [`Graph`] when
     /// inserting a new node
-    fn new(
-        node_id: NodeId,
-        node: Box<dyn Node>,
-        // graph: Arc<Mutex<Graph>>
-    ) -> Self {
+    fn new(node_id: NodeId, node: Box<dyn Node>) -> Self {
         Self {
             id: node_id,
             node: Arc::new(node),
-            // graph,
         }
     }
 
@@ -81,14 +75,6 @@ impl Vertex {
             outbound: HashMap::new(),
         }
     }
-
-    // fn inbound(self) -> HashMap<InoutId, NodeInoutId> {
-    //     self.inbound
-    // }
-
-    // fn outbound(self) -> HashMap<InoutId, HashSet<NodeInoutId>> {
-    //     self.outbound
-    // }
 
     pub fn inbound_for(&self, in_id: InoutId) -> Option<&NodeInoutId> {
         self.inbound.get(&in_id)

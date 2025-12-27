@@ -33,13 +33,3 @@ pub struct Meta {
     /// A quality norm used to find a tradeoff between quality and performance
     pub quality: Quality,
 }
-
-// impl Meta {
-//     fn tick(&self) -> u64 {
-//         self.tick
-//     }
-
-//     fn quality(&self) -> Quality {
-//         self.quality
-//     }
-// }

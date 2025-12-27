@@ -27,10 +27,5 @@ fn main() {
         let _ = graph.patch(mult.id_for("out").unwrap(), numout);
     }
 
-    // dbg!(&mult);
-    // dbg!(&number_a);
-    // dbg!(&qk.graph);
-    // qk.graph.evaluate();
-
     dbg!(qk.evaluate_for("number_out").unwrap());
 }

@@ -139,20 +139,6 @@ impl InoutId {
     pub fn into_node_inout_id(self, node_id: NodeId) -> NodeInoutId {
         NodeInoutId::new(node_id, self)
     }
-
-    // /// Return a new random `inout` (input or output) for a node
-    // pub fn new_node_in_id(node_id: NodeId, inout_id: NodeInoutId) -> Self {
-    //     Self::NodeInout(node_id, inout_id)
-    // }
-
-    // /// Return `Some(NodeId)` if Self::NodeEdgepoint or None
-    // /// Return `Some([NodeId])` if edgepoint is attached to a node, or `None` if not
-    // pub fn node_id(&self) -> NodeId {
-    //     match self {
-    //         Self::In(node_id, _) => *node_id,
-    //         Self::Out(node_id, _) => *node_id,
-    //     }
-    // }
 }
 
 impl Debug for InoutId {
@@ -172,10 +158,7 @@ pub struct NodeInoutId {
 
 impl NodeInoutId {
     pub fn new(node_id: NodeId, inout_id: InoutId) -> Self {
-        Self {
-            inout_id,
-            node_id,
-        }
+        Self { inout_id, node_id }
     }
 
     pub fn new_in_from(node_id: NodeId, inout_name: &str) -> Self {

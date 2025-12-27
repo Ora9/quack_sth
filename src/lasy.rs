@@ -40,6 +40,8 @@ impl LasyExecutor {
             )
         };
 
+        dbg!(inbound_node.node().title());
+
         Some(inbound_node.node().evaluate(
             inbound_out_id.inout_id(),
             LasyExecutor::new(inbound_node.node_id(), self.graph.clone()),
