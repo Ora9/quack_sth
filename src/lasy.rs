@@ -1,5 +1,7 @@
 use std::sync::{Arc, Mutex};
 
+use anyhow::Context;
+
 use crate::{Graph, Meta};
 
 /// `LasyExecutor` is the executor of Quack, constructed with a reference to the graph, it is responsible for
@@ -10,8 +12,7 @@ use crate::{Graph, Meta};
 /// Currently, `LasyExecutor` :
 /// - Is cheaply cloned
 /// - Recursively traverse the graph
-
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct LasyExecutor {
     graph: Arc<Mutex<Graph>>,
 }
@@ -21,15 +22,19 @@ impl LasyExecutor {
         Self { graph }
     }
 
-    pub(crate) fn evaluate_for(&self, out_name: &str, meta: Meta) {
+    pub(crate) fn evaluate_for(&self, out_name: &str, meta: Meta) -> Result<(), anyhow::Error> {
         dbg!(out_name, meta);
 
-        if let Ok(graph) = self.graph.lock() {
-            dbg!(graph.graph_out_id_for(out_name));
-        }
+        let graph = self.graph.lock().expect("the graph is inaccessible");
+        let out_id = graph
+            .graph_out_id_for(out_name)
+            .context("out name not found for this graph")?
+            .inout_id();
+
+        graph.evaluate(out_id, self.clone(), meta);
+
+        Ok(())
     }
 
-    fn get() {
-
-    }
+    fn get() {}
 }
