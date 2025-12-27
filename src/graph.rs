@@ -263,7 +263,7 @@ impl Node for GraphIn {
         "GraphIn"
     }
 
-    fn evaluate(&self, out_id: Option<InoutId>, lasy_executor: LasyExecutor, meta: Meta) {
+    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
         dbg!(self.title());
 
         dbg!(out_id);
@@ -290,7 +290,7 @@ impl Node for GraphOut {
         "GraphOut"
     }
 
-    fn evaluate(&self, out_id: Option<InoutId>, lasy_executor: LasyExecutor, meta: Meta) {
+    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
         dbg!(self.title());
 
         dbg!(out_id);
@@ -300,7 +300,7 @@ impl Node for GraphOut {
 
 /// # Graph evaluation
 impl Graph {
-    pub fn evaluate(&self, out_id: Option<InoutId>, lasy_executor: LasyExecutor, meta: Meta) {
+    pub fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
 
         let out_handle = self.graph_out_handle();
         dbg!(out_id, out_handle);

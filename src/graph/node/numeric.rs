@@ -28,7 +28,7 @@ impl Node for Number {
         "Number"
     }
 
-    fn evaluate(&self, out_id: Option<InoutId>, lasy_executor: LasyExecutor, meta: Meta) {
+    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
         dbg!(self.title());
 
         dbg!(out_id);
@@ -51,7 +51,7 @@ impl Node for Multiply {
         Self
     }
 
-    fn evaluate(&self, out_id: Option<InoutId>, lasy_executor: LasyExecutor, meta: Meta) {
+    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
         dbg!(self.title());
     }
 

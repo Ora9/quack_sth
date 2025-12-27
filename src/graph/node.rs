@@ -18,7 +18,7 @@ pub trait Node: Debug {
     fn title(&self) -> &str;
 
 
-    fn evaluate(&self, out_id: Option<InoutId>, lasy_executor: LasyExecutor, meta: Meta);
+    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta);
 
     fn node_inout_id_for(&self, inout_name: &str, node_id: NodeId) -> Option<NodeInoutId> {
         self.id_for(inout_name).and_then(|inout_id| {
