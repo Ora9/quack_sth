@@ -14,6 +14,11 @@ members = [
 ]
 default-members = ["packages/quack_sth_cli"]
 
+[workspace.lints.rust]
+unsafe_code = "forbid"
+unused = "allow"
+dead_code = "allow"
+
 [workspace.dependencies]
 # Workspace dependencies
 quack_sth = { path = "packages/quack_sth" }
