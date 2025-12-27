@@ -39,10 +39,10 @@ impl Quack {
                 .context("out name not found for this graph")?
         };
 
-        let lasy_executor = LasyExecutor::new(out_id.node_id(), self.graph.clone());
+        let lasy_fold = LasyFold::new(out_id.node_id(), self.graph.clone());
 
-        lasy_executor
-            .get_from(out_id.inout_id(), self.base_meta)
+        lasy_fold
+            .get_input(out_id.inout_id(), self.base_meta)
             .ok_or(anyhow!("prout"))
     }
 }

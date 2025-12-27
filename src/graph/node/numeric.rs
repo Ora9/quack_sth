@@ -1,6 +1,6 @@
 use std::{any::Any, collections::HashMap, ops::Mul, str::FromStr};
 
-use crate::{HashId, InoutId, LasyExecutor, Meta, Node, NodeId};
+use crate::{HashId, InoutId, LasyFold, Meta, Node, NodeId};
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 enum NumberInout {
@@ -28,7 +28,7 @@ impl Node for Number {
         "Number"
     }
 
-    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) -> f32 {
+    fn fold(&self, out_id: InoutId, lasy_fold: LasyFold, meta: Meta) -> f32 {
         self.value
     }
 }
@@ -48,9 +48,9 @@ impl Node for Multiply {
         Self
     }
 
-    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) -> f32 {
-        if let Some(term1) = lasy_executor.get_from(self.id_for("term1").unwrap(), meta)
-            && let Some(term2) = lasy_executor.get_from(self.id_for("term2").unwrap(), meta)
+    fn fold(&self, out_id: InoutId, lasy_fold: LasyFold, meta: Meta) -> f32 {
+        if let Some(term1) = lasy_fold.get_input(self.id_for("term1").unwrap(), meta)
+            && let Some(term2) = lasy_fold.get_input(self.id_for("term2").unwrap(), meta)
         {
             term1.mul(term2)
         } else {

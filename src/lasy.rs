@@ -4,28 +4,43 @@ use anyhow::Context;
 
 use crate::{Graph, InoutId, Meta, NodeId};
 
-/// `LasyExecutor` is the executor of Quack, constructed with a reference to the graph, it is responsible for
-/// evaluating all needed nodes, handling their ins and outs
+/// `LasyFold` [folds] the [`Graph`] into a single value.
 ///
-/// The inner working of `LasyExecutor` is subject to change, to allow for more performance
+/// It can be viewed a the "evaluator" or "executor" of Quack, the term "fold" is used to tie back
+/// to the functional programming.
 ///
-/// Currently, `LasyExecutor` :
-/// - Is cheaply cloned
+/// The fold is "lasy" because it will not blindly fold every node in the graph, but only compute
+/// input that are asked for by each nodes. This is because every input of a node are not always
+/// required to compute some output
+///
+/// The inner working of `LasyExecutor` is subject to change, to allow more flexibility, and performance.
+///
+/// `LasyFold` recursively traverse a [`Graph`] and any contained subgraphs, folding all needed nodes,
+/// handling their ins and outs.
+///
+/// Currently :
 /// - Recursively traverse the graph
+/// - The struct is cheaply cloned.
+/// - Each instance is specific to a node
+/// - Holds the [`NodeId`] of the node, and a reference of the [`Graph`]
+/// - Calls [`Node::fold()`][crate::Node::fold()], passing a new instance of `LasyFold`
+/// - Node can call [`LasyFold::get_input()`] if they require some of their input for computing some
+///   of their output
+///
+/// [folds]: https://en.wikipedia.org/wiki/Fold_(higher-order_function)
 #[derive(Debug, Clone)]
-pub struct LasyExecutor {
+pub struct LasyFold {
     node_id: NodeId,
     graph: Arc<Mutex<Graph>>,
 }
 
-impl LasyExecutor {
+impl LasyFold {
+    /// Create a new `LasyFold`
     pub fn new(node_id: NodeId, graph: Arc<Mutex<Graph>>) -> Self {
         Self { node_id, graph }
     }
 
-    pub fn get_from(&self, in_id: InoutId, meta: Meta) -> Option<f32> {
-        dbg!(in_id);
-
+    pub fn get_input(&self, in_id: InoutId, meta: Meta) -> Option<f32> {
         let (inbound_node, inbound_out_id) = {
             let graph = self.graph.lock().unwrap();
             let inbound_out_id = graph
@@ -42,9 +57,9 @@ impl LasyExecutor {
 
         dbg!(inbound_node.node().title());
 
-        Some(inbound_node.node().evaluate(
+        Some(inbound_node.node().fold(
             inbound_out_id.inout_id(),
-            LasyExecutor::new(inbound_node.node_id(), self.graph.clone()),
+            LasyFold::new(inbound_node.node_id(), self.graph.clone()),
             meta,
         ))
     }

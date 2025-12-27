@@ -16,7 +16,7 @@ pub use node::Node;
 mod id;
 pub use id::*;
 
-use crate::LasyExecutor;
+use crate::LasyFold;
 
 /// `NodeHandle` is a cheaply cloned reference to a node
 ///
@@ -259,7 +259,7 @@ impl Node for GraphIn {
         "GraphIn"
     }
 
-    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) -> f32 {
+    fn fold(&self, out_id: InoutId, lasy_fold: LasyFold, meta: Meta) -> f32 {
         dbg!(self.title());
 
         dbg!(out_id);
@@ -288,7 +288,7 @@ impl Node for GraphOut {
         "GraphOut"
     }
 
-    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) -> f32 {
+    fn fold(&self, out_id: InoutId, lasy_fold: LasyFold, meta: Meta) -> f32 {
         dbg!(self.title());
 
         dbg!(out_id);
@@ -300,12 +300,12 @@ impl Node for GraphOut {
 
 /// # Graph evaluation
 impl Graph {
-    // pub fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
+    // pub fn evaluate(&self, out_id: InoutId, lasy_fold: LasyExecutor, meta: Meta) {
 
     //     let out_handle = self.graph_out_handle();
     //     dbg!(out_id, out_handle);
 
-    //     lasy_executor.get()
+    //     lasy_fold.get()
     // }
 }
 
