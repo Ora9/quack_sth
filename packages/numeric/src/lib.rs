@@ -1,11 +1,11 @@
-use std::{any::Any, collections::HashMap, ops::Mul, str::FromStr};
+use std::ops::Mul;
 
-use crate::{HashId, InoutId, LasyFold, Meta, Node, NodeId};
+use quack_sth::{InoutId, LasyFold, Meta, Node};
 
-#[derive(Debug, PartialEq, Eq, Hash)]
-enum NumberInout {
-    Output,
-}
+// #[derive(Debug, PartialEq, Eq, Hash)]
+// enum NumberInout {
+//     Output,
+// }
 
 #[derive(Debug, Default)]
 pub struct Number {
@@ -28,17 +28,17 @@ impl Node for Number {
         "Number"
     }
 
-    fn fold(&self, out_id: InoutId, lasy_fold: LasyFold, meta: Meta) -> f32 {
+    fn fold(&self, _out_id: InoutId, _lasy_fold: LasyFold, _meta: Meta) -> f32 {
         self.value
     }
 }
 
-#[derive(Debug, PartialEq, Eq, Hash)]
-enum MultiplyInout {
-    Term1,
-    Term2,
-    Out,
-}
+// #[derive(Debug, PartialEq, Eq, Hash)]
+// enum MultiplyInout {
+//     Term1,
+//     Term2,
+//     Out,
+// }
 
 #[derive(Debug)]
 pub struct Multiply;
@@ -48,7 +48,7 @@ impl Node for Multiply {
         Self
     }
 
-    fn fold(&self, out_id: InoutId, lasy_fold: LasyFold, meta: Meta) -> f32 {
+    fn fold(&self, _out_id: InoutId, lasy_fold: LasyFold, meta: Meta) -> f32 {
         if let Some(term1) = lasy_fold.get_input(self.id_for("term1").unwrap(), meta)
             && let Some(term2) = lasy_fold.get_input(self.id_for("term2").unwrap(), meta)
         {

@@ -1,0 +1,12 @@
+[package]
+name = "numeric"
+description.workspace = true
+repository.workspace = true
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+quack_sth.workspace = true
+
+anyhow.workspace = true

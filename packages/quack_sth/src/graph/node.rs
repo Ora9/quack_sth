@@ -2,9 +2,6 @@ use std::{any::Any, fmt::Debug};
 
 use crate::{HashId, InoutId, LasyFold, Meta, NodeId, NodeInoutId};
 
-pub mod numeric;
-pub use numeric::*;
-
 pub trait Node: Debug {
     fn new() -> Self
     where

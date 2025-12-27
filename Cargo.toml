@@ -1,7 +1,24 @@
-[package]
-name = "quack_sth"
+[workspace.package]
+description = "Quack is a node based live coding environnement"
+repository = "https://github.com/Ora9/quack_sth"
+license = "MIT"
 version = "0.1.0"
 edition = "2024"
 
-[dependencies]
-anyhow = "1"
+[workspace]
+resolver = "2"
+members = [
+    "packages/quack_sth",
+    "packages/quack_sth_cli",
+    "packages/numeric"
+]
+default-members = ["packages/quack_sth_cli"]
+
+[workspace.dependencies]
+# Workspace dependencies
+quack_sth = { path = "packages/quack_sth" }
+quack_sth_cli = { path = "packages/quack_sth_cli" }
+numeric = { path = "packages/numeric" }
+
+# External dependencies
+anyhow = "1.0.100"

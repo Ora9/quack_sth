@@ -1,7 +1,6 @@
-use quack_sth::{
-    Node, Quack,
-    node::{Multiply, Number},
-};
+use quack_sth::{Node, Quack};
+
+use numeric::*;
 
 fn main() {
     let qk = Quack::new();
