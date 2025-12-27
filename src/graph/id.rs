@@ -113,6 +113,10 @@ impl NodeId {
     pub fn new_node_from(input: &str) -> Self {
         Self::Node(HashId::new_from(input))
     }
+
+    pub fn into_node_inout_id(self, inout_id: InoutId) -> NodeInoutId {
+        NodeInoutId::new(self, inout_id)
+    }
 }
 
 /// Each input or output (`inout`) in the graph have a specific id, that is
@@ -130,6 +134,10 @@ impl InoutId {
 
     pub fn new_out_from(inout_name: &str) -> Self {
         Self::Out(HashId::new_from(inout_name))
+    }
+
+    pub fn into_node_inout_id(self, node_id: NodeId) -> NodeInoutId {
+        NodeInoutId::new(node_id, self)
     }
 
     // /// Return a new random `inout` (input or output) for a node
