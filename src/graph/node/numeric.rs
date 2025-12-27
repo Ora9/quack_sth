@@ -1,4 +1,4 @@
-use std::{any::Any, collections::HashMap, str::FromStr};
+use std::{any::Any, collections::HashMap, ops::Mul, str::FromStr};
 
 use crate::{HashId, InoutId, LasyExecutor, Meta, Node, NodeId};
 
@@ -14,7 +14,7 @@ pub struct Number {
 
 impl Node for Number {
     fn new() -> Self {
-        Self::default()
+        Self { value: 4.0 }
     }
 
     fn id_for(&self, inout_name: &str) -> Option<InoutId> {
@@ -28,11 +28,13 @@ impl Node for Number {
         "Number"
     }
 
-    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
+    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) -> f32 {
         dbg!(self.title());
 
         dbg!(out_id);
         dbg!(meta);
+
+        self.value
     }
 }
 
@@ -51,8 +53,14 @@ impl Node for Multiply {
         Self
     }
 
-    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
-        dbg!(self.title());
+    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) -> f32 {
+        if let Some(term1) = lasy_executor.get_from(self.id_for("term1").unwrap(), meta)
+            && let Some(term2) = lasy_executor.get_from(self.id_for("term2").unwrap(), meta)
+        {
+            term1.mul(term2)
+        } else {
+            0.0
+        }
     }
 
     fn title(&self) -> &str {

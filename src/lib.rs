@@ -4,7 +4,7 @@
 mod graph;
 use std::sync::{Arc, Mutex};
 
-use anyhow::Context;
+use anyhow::{Context, anyhow};
 pub use graph::*;
 
 mod lasy;
@@ -30,7 +30,7 @@ impl Quack {
         }
     }
 
-    pub fn evaluate_for(&self, out_name: &str) -> Result<(), anyhow::Error> {
+    pub fn evaluate_for(&self, out_name: &str) -> Result<f32, anyhow::Error> {
         // self.lasy_executor.evaluate_for(out_name, self.base_meta);
         let out_id = {
             self.graph
@@ -41,8 +41,9 @@ impl Quack {
         };
 
         let lasy_executor = LasyExecutor::new(out_id.node_id(), self.graph.clone());
-        lasy_executor.get_from(out_id.inout_id(), self.base_meta);
 
-        Ok(())
+        lasy_executor
+            .get_from(out_id.inout_id(), self.base_meta)
+            .ok_or(anyhow!("prout"))
     }
 }

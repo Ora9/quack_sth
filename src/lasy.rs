@@ -40,16 +40,10 @@ impl LasyExecutor {
             )
         };
 
-        inbound_node.node().evaluate(
+        Some(inbound_node.node().evaluate(
             inbound_out_id.inout_id(),
             LasyExecutor::new(inbound_node.node_id(), self.graph.clone()),
             meta,
-        );
-
-        None
-
-        // node_handle.
-
-        // node_handle.node().evaluate(, lasy_executor, meta);
+        ))
     }
 }

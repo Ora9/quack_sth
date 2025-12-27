@@ -32,5 +32,5 @@ fn main() {
     // dbg!(&qk.graph);
     // qk.graph.evaluate();
 
-    qk.evaluate_for("number_out").unwrap();
+    dbg!(qk.evaluate_for("number_out").unwrap());
 }

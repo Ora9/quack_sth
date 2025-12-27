@@ -273,11 +273,13 @@ impl Node for GraphIn {
         "GraphIn"
     }
 
-    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
+    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) -> f32 {
         dbg!(self.title());
 
         dbg!(out_id);
         dbg!(meta);
+
+        Default::default()
     }
 }
 
@@ -300,11 +302,13 @@ impl Node for GraphOut {
         "GraphOut"
     }
 
-    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) {
+    fn evaluate(&self, out_id: InoutId, lasy_executor: LasyExecutor, meta: Meta) -> f32 {
         dbg!(self.title());
 
         dbg!(out_id);
         dbg!(meta);
+
+        Default::default()
     }
 }
 
