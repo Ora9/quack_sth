@@ -1,6 +1,9 @@
-use std::{fmt::Debug};
+use std::fmt::Debug;
 
 use crate::{InoutId, LasyFold, Meta, NodeId, NodeInoutId};
+
+pub mod numeric;
+pub mod textual;
 
 pub trait Node: Debug {
     fn new() -> Self

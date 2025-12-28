@@ -7,6 +7,10 @@ pub use graph::*;
 mod lasy;
 pub use lasy::*;
 
+mod node;
+pub use node::Node;
+pub use node::numeric;
+
 #[derive(Debug)]
 pub struct Quakk {
     pub graph: Arc<Mutex<Graph>>,

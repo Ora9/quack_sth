@@ -15,6 +15,6 @@ path = "src/main.rs"
 
 [dependencies]
 quakk.workspace = true
-quakk_numeric.workspace = true
+quakk_audio.workspace = true
 
 anyhow.workspace = true

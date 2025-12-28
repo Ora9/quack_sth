@@ -1,6 +1,4 @@
-use quakk::{Node, Quakk};
-
-use quakk_numeric::*;
+use quakk::{Node, Quakk, numeric::*};
 
 fn main() {
     let qk = Quakk::new();

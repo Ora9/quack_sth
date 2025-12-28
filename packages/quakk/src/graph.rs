@@ -8,13 +8,10 @@ use std::{
 mod meta;
 pub use meta::*;
 
-pub mod node;
-pub use node::Node;
-
 mod id;
 pub use id::*;
 
-use crate::LasyFold;
+use crate::{LasyFold, Node};
 
 /// `NodeHandle` is a cheaply cloned reference to a node
 ///

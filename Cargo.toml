@@ -10,7 +10,7 @@ resolver = "2"
 members = [
     "packages/quakk",
     "packages/quakk_cli",
-    "packages/quakk_numeric"
+    "packages/quakk_audio"
 ]
 default-members = ["packages/quakk_cli"]
 
@@ -23,7 +23,7 @@ dead_code = "allow"
 # Workspace dependencies
 quakk = { path = "packages/quakk" }
 quakk_cli = { path = "packages/quakk_cli" }
-quakk_numeric = { path = "packages/quakk_numeric" }
+quakk_audio = { path = "packages/quakk_audio" }
 
 # External dependencies
 anyhow = "1.0.100"
