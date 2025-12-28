@@ -9,25 +9,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a23eb6b1614318a8071c9b2521f36b424b2c83db5eb3a0fead4a6c0809af6e61"
 
 [[package]]
-name = "numeric"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "quack_sth",
-]
-
-[[package]]
-name = "quack_sth"
+name = "quakk"
 version = "0.1.0"
 dependencies = [
  "anyhow",
 ]
 
 [[package]]
-name = "quack_sth_cli"
+name = "quakk_cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "numeric",
- "quack_sth",
+ "quakk",
+ "quakk_numeric",
+]
+
+[[package]]
+name = "quakk_numeric"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "quakk",
 ]

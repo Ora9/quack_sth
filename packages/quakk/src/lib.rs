@@ -8,12 +8,12 @@ mod lasy;
 pub use lasy::*;
 
 #[derive(Debug)]
-pub struct Quack {
+pub struct Quakk {
     pub graph: Arc<Mutex<Graph>>,
     pub base_meta: Meta,
 }
 
-impl Quack {
+impl Quakk {
     pub fn new() -> Self {
         let graph = Arc::new(Mutex::new(Graph::new()));
 

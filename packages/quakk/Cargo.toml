@@ -1,5 +1,5 @@
 [package]
-name = "quack_sth_cli"
+name = "quakk"
 description.workspace = true
 repository.workspace = true
 version.workspace = true
@@ -9,12 +9,5 @@ license.workspace = true
 [lints]
 workspace = true
 
-[[bin]]
-name = "quack_sth_cli"
-path = "src/main.rs"
-
 [dependencies]
-quack_sth.workspace = true
-numeric.workspace = true
-
 anyhow.workspace = true

@@ -1,6 +1,6 @@
 use std::ops::{Add as opsAdd, Mul as opsMul};
 
-use quack_sth::{InoutId, LasyFold, Meta, Node};
+use quakk::{InoutId, LasyFold, Meta, Node};
 
 // #[derive(Debug, PartialEq, Eq, Hash)]
 // enum NumberInout {

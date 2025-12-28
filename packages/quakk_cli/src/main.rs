@@ -1,9 +1,9 @@
-use quack_sth::{Node, Quack};
+use quakk::{Node, Quakk};
 
-use numeric::*;
+use quakk_numeric::*;
 
 fn main() {
-    let qk = Quack::new();
+    let qk = Quakk::new();
 
     {
         let mut graph = qk.graph.lock().unwrap();

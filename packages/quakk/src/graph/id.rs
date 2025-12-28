@@ -1,4 +1,4 @@
-//! Quack uses a few differents types of identifiers for nodes and their ins and outs :
+//! Quakk uses a few differents types of identifiers for nodes and their ins and outs :
 //! - [`NodeId`] : to identify a unique node in a graph
 //! - [`InoutName`] : to identify an specific "inout" (in or out of a node),
 //!   but does not inlude
@@ -38,7 +38,7 @@ pub struct HashId {
 impl HashId {
     /// Get a new random unique id
     /// ```
-    /// # use quack_sth::HashId;
+    /// # use quakk::HashId;
     /// assert_ne!(HashId::new(), HashId::new());
     /// ```
     pub fn new() -> Self {
@@ -49,7 +49,7 @@ impl HashId {
 
     /// Get a new unique id based on a string input
     /// ```
-    /// # use quack_sth::HashId;
+    /// # use quakk::HashId;
     /// assert_eq!(HashId::new_from("test"), HashId::new_from("test"));
     /// assert_ne!(HashId::new_from("test"), HashId::new_from("other"));
     /// ```
@@ -86,8 +86,8 @@ impl Default for HashId {
     }
 }
 
-/// A [`Node`](quack_sth::Node) id
-/// used by the [`Graph`](quack_sth::Graph)
+/// A [`Node`](quakk::Node) id
+/// used by the [`Graph`](quakk::Graph)
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
 pub enum NodeId {
     GraphIn,

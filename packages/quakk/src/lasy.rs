@@ -4,7 +4,7 @@ use crate::{Graph, InoutId, Meta, NodeId};
 
 /// `LasyFold` [folds] the [`Graph`] into a single value.
 ///
-/// It can be viewed a the "evaluator" or "executor" of Quack, the term "fold" is used to tie back
+/// It can be viewed a the "evaluator" or "executor" of Quakk, the term "fold" is used to tie back
 /// to the functional programming.
 ///
 /// The fold is "lasy" because it will not blindly fold every node in the graph, but only compute

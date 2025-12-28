@@ -1,6 +1,6 @@
 [workspace.package]
-description = "Quack is a node based live coding environnement"
-repository = "https://github.com/Ora9/quack_sth"
+description = "Quakk is a node based live coding synthesizer"
+repository = "https://github.com/Ora9/quakk"
 license = "MIT"
 version = "0.1.0"
 edition = "2024"
@@ -8,11 +8,11 @@ edition = "2024"
 [workspace]
 resolver = "2"
 members = [
-    "packages/quack_sth",
-    "packages/quack_sth_cli",
-    "packages/numeric"
+    "packages/quakk",
+    "packages/quakk_cli",
+    "packages/quakk_numeric"
 ]
-default-members = ["packages/quack_sth_cli"]
+default-members = ["packages/quakk_cli"]
 
 [workspace.lints.rust]
 unsafe_code = "forbid"
@@ -21,9 +21,9 @@ dead_code = "allow"
 
 [workspace.dependencies]
 # Workspace dependencies
-quack_sth = { path = "packages/quack_sth" }
-quack_sth_cli = { path = "packages/quack_sth_cli" }
-numeric = { path = "packages/numeric" }
+quakk = { path = "packages/quakk" }
+quakk_cli = { path = "packages/quakk_cli" }
+quakk_numeric = { path = "packages/quakk_numeric" }
 
 # External dependencies
 anyhow = "1.0.100"
