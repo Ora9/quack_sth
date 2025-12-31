@@ -35,7 +35,7 @@ impl Quakk {
         let out_id = {
             self.graph
                 .lock()
-                .expect("the graph has been poisoned, who is it ?!")
+                .expect("the graph has been poisoned, who was it ?!")
                 .graph_out_id_for(out_name)
                 .context("out name not found for this graph")?
         };
