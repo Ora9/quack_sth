@@ -8,10 +8,10 @@ use std::{
 mod meta;
 pub use meta::*;
 
-pub mod id;
-pub use id::*;
-
-use crate::{LasyFold, Node};
+use crate::{
+    LasyFold, Node,
+    id::{InId, InoutId, NodeId, NodeInId, NodeInoutId, NodeOutId, OutId},
+};
 
 /// `NodeHandle` is a cheaply cloned reference to a node
 ///

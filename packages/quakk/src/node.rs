@@ -1,6 +1,9 @@
 use std::fmt::Debug;
 
-use crate::{InId, InoutId, LasyFold, Meta, NodeId, NodeInoutId, OutId};
+use crate::{
+    LasyFold, Meta, NodeId, OutId,
+    id::{InId, InoutId, NodeInoutId},
+};
 
 pub mod numeric;
 pub mod textual;

@@ -1,6 +1,9 @@
 use std::ops::{Add as opsAdd, Mul as opsMul};
 
-use crate::{InoutId, LasyFold, Meta, Node, OutId};
+use crate::{
+    LasyFold, Meta, Node,
+    id::{InoutId, OutId},
+};
 
 // #[derive(Debug, PartialEq, Eq, Hash)]
 // enum NumberInout {

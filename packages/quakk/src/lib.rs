@@ -1,6 +1,3 @@
-use anyhow::{Context, anyhow};
-use std::sync::{Arc, Mutex};
-
 mod graph;
 pub use graph::*;
 
@@ -10,6 +7,13 @@ pub use lasy::*;
 mod node;
 pub use node::Node;
 pub use node::numeric;
+
+pub mod id;
+
+use anyhow::{Context, anyhow};
+use std::sync::{Arc, Mutex};
+
+use crate::id::{NodeId, OutId};
 
 #[derive(Debug)]
 pub struct Quakk {
