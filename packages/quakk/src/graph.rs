@@ -8,7 +8,7 @@ use std::{
 mod meta;
 pub use meta::*;
 
-mod id;
+pub mod id;
 pub use id::*;
 
 use crate::{LasyFold, Node};

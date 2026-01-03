@@ -1,26 +1,33 @@
 //! Quakk uses a few differents types of identifiers for nodes and their ins and outs :
-//! - [`NodeId`] : to identify a unique node in a graph
-//! - [`InoutName`] : to identify an specific "inout" (in or out of a node),
-//!   but does not inlude
-//! - [`NodeInoutName`] : to identify a specific "inout" of a specific node
+//! - [`NodeId`] : Identifies a unique node in a graph
+//! - [`InoutId`] : Identifies either an input or output of an anonymous node. The specific node it
+//!   is tied to is not specified and should be unambiguously determined from context if needed
+//!     - [`InId`] : An input of an anonymous node
+//!     - [`OutId`] : An output of an anonymous node
+//! - [`NodeInoutId`] : Identifies either an input or output of a specific node
+//!     - [`NodeInId`] : An input of a node
+//!     - [`NodeOutId`] : An input of a node
 //!
-//! All of these rely on [`HashId`] which is a simple hash, either randomly determined, or based on a string
+//! All of these eventually rely on [`HashId`] which is a simple hash, either randomly determined,
+//! or based on a string
 //!
 //! ```text
-//!      ┌─────────────┐
-//!      │ NodeInoutId │
-//!      └──┬───────┬──┘
-//!         ▼       ▼
-//!  ┌────────┐   ┌─────────┐
-//!  │ NodeId │   │ InoutId │
-//!  └──────┬─┘   └─┬───────┘
-//!         ▼       ▼
-//!      ┌────────────┐
-//!      │   HashId   │
-//!      └────────────┘
+//!   ┌────────┐ ┌─────────┐ ┌───────────────┐
+//!   │ NodeId │ │ InoutId │ │ NodeInoutId   │
+//!   └─┬──────┘ └─┬─────┬─┘ └─┬───────────┬─┘
+//!     │          │     │   ┌─▼────────┐┌─▼─────────┐
+//!     │          │     └─┐ │ NodeInId ││ NodeOutId │
+//!     │          │       │ └─┬────────┘└─┬─────────┘
+//!     │          ├───────┼───┘           │
+//!     │          │       ├───────────────┘
+//!     │        ┌─▼────┐┌─▼─────┐
+//!     │        │ InId ││ OutId │
+//!     │        └─┬────┘└┬──────┘
+//!     ├──────────┴──────┘
+//!   ┌─▼──────┐
+//!   │ HashId │
+//!   └────────┘
 //! ```
-//!
-
 use std::{
     fmt::Debug,
     hash::{BuildHasher, DefaultHasher, Hasher, RandomState},
@@ -28,7 +35,7 @@ use std::{
 
 use anyhow::anyhow;
 
-/// A simple hash, used for [`NodeId`], [`InoutId`]
+/// A simple hash, used by [`NodeId`], [`InId`] and [`OutId`]
 ///
 /// Internaly `HashId` is an u64 hash, either a based on a string, or randomly
 /// determined
@@ -88,13 +95,13 @@ impl Default for HashId {
     }
 }
 
-/// A [`Node`](quakk::Node) id used to identify a node
+/// A id used to identify a [`Node`](quakk::Node)
 ///
-/// It allows representing `GraphIn` and `GraphOut`. Thoses are specials types of [`Node`](quakk::Node)
-/// that handle ins and outs for the [`Graph`](quakk::Graph), theses can only exists once of each
-/// in a graph, so they have this special `NodeId` representation
+/// It allows representing `GraphIn` and `GraphOut`. Thoses are specials types of nodes
+/// that handles ins and outs for the [`Graph`](quakk::Graph) itself. Theses specials nodes always
+/// exist once each in a graph.
 ///
-/// Other conventional nodes are identified with an [`HashId`], usually random
+/// Other nodes are identified with an [`HashId`], usually random
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
 pub enum NodeId {
     GraphIn,
@@ -129,12 +136,7 @@ impl Debug for NodeId {
     }
 }
 
-#[derive(Debug, PartialEq, Eq)]
-pub enum InoutKind {
-    In,
-    Out,
-}
-
+/// InId identifies an
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
 pub struct InId {
     id: HashId,
@@ -145,10 +147,6 @@ impl InId {
         Self {
             id: HashId::new_from(in_name),
         }
-    }
-
-    pub fn into_inout_id(self) -> InoutId {
-        InoutId::In(self)
     }
 }
 
@@ -169,6 +167,7 @@ impl TryFrom<InoutId> for InId {
     }
 }
 
+/// `OutId` identifies an output in a node
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
 pub struct OutId {
     id: HashId,
@@ -199,22 +198,24 @@ impl TryFrom<InoutId> for OutId {
     }
 }
 
-/// In the [`Graph`](quakk::Graph), each of the [`Node`s](quakk::Node) ins or outs have an id.
-///
-/// This id is designed to be unique for a specific node, but not to be unique in the graph, This id
-/// only care about the inout without specifing the node it is tied to, that would be the purpose
-/// of [`NodeInoutId`], that identify a specific inout in the graph.
+/// In the [`Graph`](quakk::Graph), each [`Nodes`](quakk::Node) ins and outs have an id.
 ///
 /// The term `inout` is widely used in the code and documentation to refer to a node's input or output.
 ///
+/// `InoutId` is designed to uniquely indentify an inout in an unspecified node, it is *not* tied to
+/// specific node and as a result cannot uniquely identify an inout in the graph. That would be the
+/// purpose of [`NodeInoutId`]
+///
+/// `InoutId` should be used only where the [`NodeId`] is unimportant, or can be unambiguously
+/// determined by context.
+///
 /// This id allow the distinction between :
 /// - `in` or "input", where data flowes inward into the node as parameter. An input can only have
-///   one edge (connection, source)
+///   one edge (connection between a node's out and another node's in)
 /// - `out` or "output", where data flowes outward from the node, as the result of a computation.
 ///   An output can have multiples edges connected to it, passing data to other node's inputs
 ///
-/// Internally this id is constructed with an [`HashId`], itself constructed as a digest of a
-/// `&str` name for an inout
+/// Internally this id is constructed as an enum of either [`InId`] or [`OutId`]
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
 pub enum InoutId {
     In(InId),
@@ -235,13 +236,6 @@ impl InoutId {
     /// Return a [`NodeInoutId`] based on self and the given [`NodeId`]
     pub fn into_node_inout_id(self, node_id: NodeId) -> NodeInoutId {
         NodeInoutId::new(node_id, self)
-    }
-
-    pub fn kind(&self) -> InoutKind {
-        match self {
-            InoutId::In(_) => InoutKind::In,
-            InoutId::Out(_) => InoutKind::Out,
-        }
     }
 }
 
@@ -318,7 +312,10 @@ impl Debug for NodeOutId {
     }
 }
 
-/// Ties an [`InoutId`] to a [`NodeId`]
+/// In the [`Graph`](quakk::Graph), each [`Nodes`](quakk::Node) ins and outs have an id.
+///
+/// This id is designed to identify an inout ("in" or "out") in the graph
+/// It ties
 #[derive(PartialEq, Eq, Clone, Copy, Hash)]
 pub enum NodeInoutId {
     In(NodeInId),
